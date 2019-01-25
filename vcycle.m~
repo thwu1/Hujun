@@ -1,5 +1,5 @@
-v1 = 5;
-v2 = 5;
+v1 = 2;
+v2 = 10;
 L = 3;
 n = 64;
 max_iteration = 100;
@@ -9,9 +9,10 @@ u = cell(1,L+1);
 v = cell(1,L+1);
 p = cell(1,L+1);
 
-[u{1},v{1},p{1},~,~] = initialize(n);
+[u{1},v{1},p{1}]
 for i = 1:L+1
     n0 = n/( 2^(i-1) );
+    [u{i},v{i},p{i},~,~] = initialize( n0 );
     [f{i},g{i}] = get_const(n0);
 end
 

@@ -1,18 +1,23 @@
 function [ u_out,v_out,p_out ] = lifting( u,v,p )
 %
-N = size(p,1);
+n = size(p,1);
+p_out = zeros(2*n,2*n);
+u_out = zeros(2*n,2*n+1);
+v_out = zeros(2*n+1,2*n);
 
-p_out( 1:2:2*N,1:2:2*N ) = p;
-p_out( 2:2:2*N,1:2:2*N ) = p;
-p_out( 1:2:2*N,2:2:2*N ) = p;
-p_out( 2:2:2*N,2:2:2*N ) = p;
+p_out(1:2:end,1:2:end) = p;
+p_out(2:2:end,1:2:end) = p;
+p_out(1:2:end,2:2:end) = p;
+p_out(2:2:end,2:2:end) = p;
 
-v_out( 1:2:2*(N+1),1:2:2*N ) = v;
-v_out( 1:2:2*(N+1),2:2:2*N ) = v;
-v_out( 2:2:2*N,1:2:2*N ) = 0.5 * (v( 1:N,: ) + v( 2:N+1,: ));
-v_out( 2:2:2*N,2:2:2*N ) = 0.5 * (v( 1:N,: ) + v( 2:N+1,: ));
+u_out(1,1:2:end) = (1/2)*u(1,:);
+u_out(end,1:2:end) = (1/2)*u(end,:);
+u_out(2:2:end-1,1:2:end) = (3/4)*u(1:end-1,:) + (1/4)*u(2:end,:);
+u_out(3:2:end,1:2:end) = (1/4)*u(1:end-1,:) + (3/4)*u(2:end,:);
+u_out(:,2:2:end-1) = (1/2)*( u_out(:,1:2:end-1) + u_out(:,3:2:end) );
 
-u_out( 1:2:2*N,1:2:2*(N+1) ) = u;
-u_out( 2:2:2*N,1:2:2*(N+1) ) = u;
-u_out( 1:2:2*N,2:2:2*N ) = 0.5 * (u( :,1:N ) + u( :,2:N+1 ));
-u_out( 2:2:2*N,2:2:2*N ) = 0.5 * (u( :,1:N ) + u( :,2:N+1 ));
+v_out(1:2:end,1) = (1/2)*v(:,1);
+v_out(1:2:end,end) = (1/2)*v(:,end);
+v_out(1:2:end,2:2:end-1) = (3/4)*v(:,1:end-1) + (1/4)*v(:,2:end);
+v_out(1:2:end,3:2:end) = (1/4)*v(:,1:end-1) + (3/4)*v(:,2:end);
+v_out(2:2:end-1,:) = (1/2)*( v_out(1:2:end-1,:) + v_out(3:2:end,:) );
