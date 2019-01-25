@@ -1,8 +1,13 @@
-v1 = 10;
-v2 = 10;
-L = 1;
-a = -0.002;
+addpath('algorithm');
+addpath('error function');
+addpath('multigrid operation');
+% Parameter
+v1 = 20;
+v2 = 20; 
+L = 3; % layers of Multigrid method
+a = -0.002; % Parameter of uzawa smoothor
 n = 128;
+% Initialization
 f = cell(1,L);
 g = cell(1,L);
 u = cell(1,L);
@@ -13,6 +18,7 @@ for i = 1:L
     n0 = n/( 2^(i-1) );
     [f{i},g{i}] = get_const(n0);
 end
+
 tic
 err0 = 0;
 err1 = 1;
