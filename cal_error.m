@@ -6,9 +6,9 @@ fun_p = @(x,y)( (x^3)/3 - 1/12 );
 
 n = size(p,1);
 
-u_exact = zeros(size(u));
-v_exact = zeros(size(v));
-% p_exact = zeros(size(p));
+u_exact = zeros(n,n+1);
+v_exact = zeros(n+1,n);
+% p_exact = zeros(n,n);
 
 for i = 1:n
     for j = 1:n+1

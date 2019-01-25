@@ -1,10 +1,10 @@
-function [ u,v,p ] = DGS( u,v,p,f,g,v1 )
-%以u,v,p为初值用DGS迭代v1次
+function [ u,v,p ] = implicit_dgs( u,v,p,f,g,v1 )
+%以u,v,p为初值用dgs迭代v1次
 n = size(p,1);
 
 for k = 1:v1
     
-    [ u,v ] = GS(u,v,p,f,g );
+    [ u,v ] = implicit_gs(u,v,p,f,g);
     %更新内部结点速度
     
     for i = 2:n-1
