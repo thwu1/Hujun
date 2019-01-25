@@ -4,15 +4,16 @@ addpath('multigrid operation');
 % Parameter
 v1 = 20;
 v2 = 20; 
-L = 3; % layers of Multigrid method
-a = -0.002; % Parameter of uzawa smoothor
-n = 128;
+L = 5; % layers of Multigrid method
+a = -0.01; % Parameter of uzawa smoothor
+n = 256;
 % Initialization
 f = cell(1,L);
 g = cell(1,L);
 u = cell(1,L);
 v = cell(1,L);
 p = cell(1,L);
+
 [u{1},v{1},p{1},~,~] = initialize(n);
 for i = 1:L
     n0 = n/( 2^(i-1) );
@@ -23,6 +24,13 @@ tic
 err0 = 0;
 err1 = 1;
 iteration = 0;
+[u{L},v{L},p{L},~,~] = initialize(n/2^(L-1));
+for i = L:-1:2
+   [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v2,a );
+   [ u{i-1},v{i-1},p{i-1} ] = lifting( u{i},v{i},p{i} );
+end % end for
+[ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
+
 while abs(err0 - err1) > 1e-8
     err0 = err1;
 %      [r1,r2] = cal_res( u{1},v{1},p{1},f{1},g{1} );
