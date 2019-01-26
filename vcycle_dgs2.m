@@ -4,8 +4,7 @@ addpath('multigrid operation');
 % Parameter
 v1 = 1;
 v2 = 1000; 
-L = 1   ; % layers of Multigrid method
-a = 0.01; % Parameter of uzawa smoothor
+L = 5   ; % layers of Multigrid method
 n = 128;
 % Initialization
 f = cell(1,L);
@@ -28,28 +27,32 @@ iteration = 0;
 
 [u{L},v{L},p{L}] = initialize(n/2^(L-1));
 for i = L:-1:2
-   [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v2,a );
+   [ u{i},v{i},p{i} ] = implicit_dgs( u{i},v{i},p{i},f{i},g{i},v2 );
    [ u{i-1},v{i-1},p{i-1} ] = lifting( u{i},v{i},p{i} );
 end % end for
-[ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
+[ u{1},v{1},p{1} ] = implicit_dgs( u{1},v{1},p{1},f{1},g{1},v2 );
 
 
 while abs(err0 - err1)/n > 1e-10
 err0 = err1;
 iteration = iteration + 1;
 fprintf("Start iteration : %d\n",iteration);
-[ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v1,a );
+[ u{1},v{1},p{1} ] = implicit_dgs( u{1},v{1},p{1},f{1},g{1},v1 );
 for i = 2:L
-    [ u{i},v{i},p{i} ] = restrict( u{i-1},v{i-1},p{i-1} );
-    [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v1,a );
+    [ f_out,g_out ] = cal_res(u{i-1},v{i-1},p{i-1},f{i-1},g{i-1});
+    [ f{i},g{i} ] = restrict_fg( f_out,g_out );
+    [ u{i},v{i},p{i} ] = implicit_dgs( u{i},v{i},p{i},f{i},g{i},v1 );
 end % end for
 
 for i = L:-1:2
-   [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v2,a );
-   [ u{i-1},v{i-1},p{i-1} ] = lifting( u{i},v{i},p{i} );
+   [ u{i},v{i},p{i} ] = implicit_dgs( u{i},v{i},p{i},f{i},g{i},v2 );
+   [u_out,v_out,p_out] = lifting( u{i},v{i},p{i} );
+   u{i-1} = u{i-1} + u_out;
+   v{i-1} = v{i-1} + v_out;
+   p{i-1} = p{i-1} + p_out;
 end % end for
 
-[ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
+[ u{1},v{1},p{1} ] = implicit_dgs( u{1},v{1},p{1},f{1},g{1},v2 );
 
 err2 = cal_error(u{1},v{1},p{1});
 err1 = cal_res_norm(u{1},v{1},p{1});

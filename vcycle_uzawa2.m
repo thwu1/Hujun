@@ -4,7 +4,7 @@ addpath('multigrid operation');
 % Parameter
 v1 = 1;
 v2 = 1000; 
-L = 1   ; % layers of Multigrid method
+L = 5   ; % layers of Multigrid method
 a = 0.01; % Parameter of uzawa smoothor
 n = 128;
 % Initialization
@@ -40,13 +40,17 @@ iteration = iteration + 1;
 fprintf("Start iteration : %d\n",iteration);
 [ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v1,a );
 for i = 2:L
-    [ u{i},v{i},p{i} ] = restrict( u{i-1},v{i-1},p{i-1} );
+    [ f_out,g_out ] = cal_res(u{i-1},v{i-1},p{i-1},f{i-1},g{i-1});
+    [ f{i},g{i} ] = restrict_fg( f_out,g_out );
     [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v1,a );
 end % end for
 
 for i = L:-1:2
    [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v2,a );
-   [ u{i-1},v{i-1},p{i-1} ] = lifting( u{i},v{i},p{i} );
+   [u_out,v_out,p_out] = lifting( u{i},v{i},p{i} );
+   u{i-1} = u{i-1} + u_out;
+   v{i-1} = v{i-1} + v_out;
+   p{i-1} = p{i-1} + p_out;
 end % end for
 
 [ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
