@@ -1,10 +1,13 @@
-This is Hujun's final homework
+This is Hujun's final project
+
 Main function : vcycle_dgs & vcycle_uzawa
 
-Parameter:
-L = 5
-v1 = 20
-v2 = 20
-a = -0.010000
-error = 0.000670
-iteration: 6 
+Main change:
+
+GS iterate just one time during a DGS iteration
+
+Rewrite cal_res(the previous one is probably wrong)
+
+What to do next:
+
+Rewrite vcylce, try to restrict the residue

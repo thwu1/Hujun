@@ -27,7 +27,5 @@ end
 %     end
 % end
 
-% error = norm(u_exact-u,'fro')^2 + norm(v_exact-v,'fro')^2 + norm(p_exact-p,'fro');
 error = norm(u_exact-u,'fro')^2 + norm(v_exact-v,'fro')^2;
-% max(max(u_exact - u))
 error = sqrt(error)/n;

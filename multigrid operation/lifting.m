@@ -1,5 +1,5 @@
 function [ u_out,v_out,p_out ] = lifting( u,v,p )
-%
+% lifting operator for the multigrid method
 n = size(p,1);
 p_out = zeros(2*n,2*n);
 u_out = zeros(2*n,2*n+1);

@@ -1,6 +1,5 @@
 function [ u_out,v_out,p_out ] = restrict( u,v,p )
-%RESTRICT restrict operator for the multigrid method
-%
+% restrict operator for the multigrid method
 
 n = size( u,1 );
 

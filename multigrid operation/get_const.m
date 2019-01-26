@@ -1,5 +1,5 @@
 function [ f,g ] = get_const( n )
-%
+% Calculate modified f,g (Include boundary condition)
 fun_f = @(x,y)(-4*pi^2*(2*cos(2*pi*x)-1) * sin(2*pi*y) + x^2 );
 fun_g = @(x,y)( 4*pi^2*(2*cos(2*pi*y)-1) * sin(2*pi*x) );
 fun_b = @(x)( 2*n*sin(pi/n)*( 1-cos(2*pi*x) ) );
