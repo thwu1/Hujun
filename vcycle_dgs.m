@@ -3,9 +3,9 @@ addpath('error function');
 addpath('multigrid operation');
 % Parameter
 v1 = 1;
-v2 = 300;
+v2 = 200;
 L = 5; % layers of Multigrid method
-n = 512;
+n = 128;
 % Initialization
 f = cell(1,L);
 g = cell(1,L);

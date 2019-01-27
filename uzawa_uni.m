@@ -1,0 +1,9 @@
+n = 512;
+v1 = 10;
+v2 = 10;
+L = 8;
+a = 0.01;
+u = zeros(n,n+1);
+v = zeros(n+1,n);
+p = zeros(n,n);
+ [u,v,p] = vcycle_uzawa2(u,v,p,v1,v2,L,a,n);

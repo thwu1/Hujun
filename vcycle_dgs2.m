@@ -3,8 +3,8 @@ addpath('error function');
 addpath('multigrid operation');
 % Parameter
 v1 = 1;
-v2 = 1000; 
-L = 5   ; % layers of Multigrid method
+v2 = 200; 
+L = 1   ; % layers of Multigrid method
 n = 128;
 % Initialization
 f = cell(1,L);
@@ -33,12 +33,13 @@ end % end for
 [ u{1},v{1},p{1} ] = implicit_dgs( u{1},v{1},p{1},f{1},g{1},v2 );
 
 
-while abs(err0 - err1)/n > 1e-10
+while abs(err0 - err1)/n > 1e-8
 err0 = err1;
 iteration = iteration + 1;
 fprintf("Start iteration : %d\n",iteration);
 [ u{1},v{1},p{1} ] = implicit_dgs( u{1},v{1},p{1},f{1},g{1},v1 );
 for i = 2:L
+    [u{i},v{i},p{i}] = initialize(n/(2^(i-1)));
     [ f_out,g_out ] = cal_res(u{i-1},v{i-1},p{i-1},f{i-1},g{i-1});
     [ f{i},g{i} ] = restrict_fg( f_out,g_out );
     [ u{i},v{i},p{i} ] = implicit_dgs( u{i},v{i},p{i},f{i},g{i},v1 );

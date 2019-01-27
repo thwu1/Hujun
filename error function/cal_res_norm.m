@@ -67,6 +67,6 @@ end
 
 
 [r1,r2] = cal_res(u,v,p,f0,g0);
-% [r3,r4] = cal_res(u0,v0,p0,f0,g0);
-% fprintf("rh   : %f\nexact: %f\n",norm([r1,r2'],'fro'),norm([r3,r4'],'fro'));
+%  [r3,r4] = cal_res(u0,v0,p0,f0,g0);
+%  fprintf("rh   : %f\nexact: %f\n",norm([r1,r2'],'fro'),norm([r3,r4'],'fro'));
 res_norm = norm([r1,r2'],'fro');

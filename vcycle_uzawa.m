@@ -1,12 +1,13 @@
+function  [u_out,v_out,p_out] = vcycle_uzawa(v1,v2,L,a,n)
 addpath('algorithm');
 addpath('error function');
 addpath('multigrid operation');
 % Parameter
-v1 = 1;
-v2 = 1000; 
-L = 1   ; % layers of Multigrid method
-a = 0.01; % Parameter of uzawa smoothor
-n = 128;
+% v1 = 1;
+% v2 = 300; 
+% L = 5   ; % layers of Multigrid method
+% a = 0.01; % Parameter of uzawa smoothor
+% n = 128;
 % Initialization
 f = cell(1,L);
 g = cell(1,L);
@@ -34,8 +35,8 @@ end % end for
 [ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
 
 
-while abs(err0 - err1)/n > 1e-10
-err0 = err1;
+while abs(err2)/n > 1e-5
+% err0 = err1;
 iteration = iteration + 1;
 fprintf("Start iteration : %d\n",iteration);
 [ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v1,a );
@@ -52,9 +53,11 @@ end % end for
 [ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
 
 err2 = cal_error(u{1},v{1},p{1});
-err1 = cal_res_norm(u{1},v{1},p{1});
-fprintf("error:%f\nrh:%f\n",err2,err1);
+% err1 = cal_res_norm(u{1},v{1},p{1});
+fprintf("error:%f\n",err2);
 end % end while
 toc
 fprintf("Parameter:\nN = %d\nL = %d\nv1 = %d\nv2 = %d\na = %f\nerror = %f\niteration: %d \n",n,L,v1,v2,a,err2,iteration);
-
+u_out = u{1};
+v_out = v{1};
+p_out = p{1};
