@@ -5,6 +5,7 @@ n = size(p,1);
 for k = 1:v1
     
     [ u,v ] = implicit_gs(u,v,p,f,g);
+    
     % update iterior block
     
     for i = 2:n-1
@@ -22,23 +23,6 @@ for k = 1:v1
     p(i,j-1) = p(i,j-1) + r/4;
         end
     end
-    
-    for i = n-1:-1:2
-        for j = n-1:-1:2
-    r = u(i,j+1) - u(i,j) + v(i+1,j) - v(i,j);
-    u(i,j+1) = u(i,j+1) - r/4;    
-    u(i,j) = u(i,j) + r/4;
-    v(i+1,j) = v(i+1,j) - r/4;
-    v(i,j) = v(i,j) + r/4;
-    r = n*r;
-    p(i,j) = p(i,j) - r;
-    p(i+1,j) = p(i+1,j) + r/4;
-    p(i-1,j) = p(i-1,j) + r/4;
-    p(i,j+1) = p(i,j+1) + r/4;
-    p(i,j-1) = p(i,j-1) + r/4;
-        end
-    end
-    
     % update lower boundary
     for i = 2:n-1
         r = u(1,i+1) - u(1,i) + v(2,i) - v(1,i);
@@ -51,43 +35,6 @@ for k = 1:v1
     p(1,i-1) = p(1,i-1) + r/3;
     p(1,i+1) = p(1,i+1) + r/3;
     end
-    
-    for i = n-1:-1:2
-        r = u(1,i+1) - u(1,i) + v(2,i) - v(1,i);
-    u(1,i+1) = u(1,i+1) - r/3;
-    u(1,i) = u(1,i) + r/3;
-    v(2,i) = v(2,i) + r/3;
-        r = n*r;
-    p(1,i) = p(1,i) - (4/3)*r;
-    p(2,i) = p(2,i) + r/3;
-    p(1,i-1) = p(1,i-1) + r/3;
-    p(1,i+1) = p(1,i+1) + r/3;
-    end
-    
-    % update upper boundary
-    for i = 2:n-1
-        r = u(n,i+1) - u(n,i) + v(n+1,i) - v(n,i);
-    u(n,i) = u(n,i) + r/3;
-    u(n,i+1) = v(n,i+1) - r/3;
-    v(n-1,i) = v(n-1,i) + r/3;
-        r = n*r;
-    p(n,i) = p(n,i) - (4/3)*r;
-    p(n-1,i) = p(n-1,i) + r/3;
-    p(n,i+1) = p(n,i+1) + r/3;
-    p(n,i-1) = p(n,i-1) + r/3;
-    end
-    for i = n-1:-1:2
-        r = u(n,i+1) - u(n,i) + v(n+1,i) - v(n,i);
-    u(n,i) = u(n,i) + r/3;
-    u(n,i+1) = v(n,i+1) - r/3;
-    v(n-1,i) = v(n-1,i) + r/3;
-        r = n*r;
-    p(n,i) = p(n,i) - (4/3)*r;
-    p(n-1,i) = p(n-1,i) + r/3;
-    p(n,i+1) = p(n,i+1) + r/3;
-    p(n,i-1) = p(n,i-1) + r/3;
-    end
-    
     % update left boundary
     for i = 2:n-1
         r = u(i,2) - u(i,1) + v(i+1,1) - v(i,1);
@@ -100,18 +47,7 @@ for k = 1:v1
     p(i-1,1) = p(i-1,1) + r/3;
     p(i+1,1) = p(i+1,1) + r/3;
     end
-    for i = n-1:-1:2
-        r = u(i,2) - u(i,1) + v(i+1,1) - v(i,1);
-    v(i,1) = v(i,1) + r/3;
-    v(i+1,1) = v(i+1,1) - r/3;
-    u(i,2) = u(i,2) - r/3;
-        r = n*r;
-    p(i,1) = p(i,1) - (4/3)*r;
-    p(i,2) = p(i,2) + r/3;
-    p(i-1,1) = p(i-1,1) + r/3;
-    p(i+1,1) = p(i+1,1) + r/3;
-    end
-    
+
     % update right boundary
     for i = 2:n-1
         r = u(i,n+1) - u(i,n) + v(i+1,n) - v(i,n);
@@ -124,7 +60,6 @@ for k = 1:v1
     p(i-1,n) = p(i-1,n) + r/3;
     p(i+1,n) = p(i+1,n) + r/3;
     end
-    
 
     % left lower
     r = u(1,2) - u(1,1) + v(2,1) - v(1,1);
@@ -161,7 +96,5 @@ for k = 1:v1
     p(n,n) = p(n,n) - 2*r;
     p(n-1,n) = p(n-1,n) + r/2;
     p(n,n-1) = p(n,n-1) + r/2;
-    
-    
-    
+
 end % end for

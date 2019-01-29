@@ -39,18 +39,18 @@ while abs(err2)/n > 1e-5
 % err0 = err1;
 iteration = iteration + 1;
 fprintf("Start iteration : %d\n",iteration);
-[ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v1,a );
+[ u{1},v{1},p{1} ] = implicit_uzawa( u{1},v{1},p{1},f{1},g{1},v1,a );
 for i = 2:L
     [ u{i},v{i},p{i} ] = restrict( u{i-1},v{i-1},p{i-1} );
-    [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v1,a );
+    [ u{i},v{i},p{i} ] = implicit_uzawa( u{i},v{i},p{i},f{i},g{i},v1,a );
 end % end for
 
 for i = L:-1:2
-   [ u{i},v{i},p{i} ] = uzawa( u{i},v{i},p{i},f{i},g{i},v2,a );
+   [ u{i},v{i},p{i} ] = implicit_uzawa( u{i},v{i},p{i},f{i},g{i},v2,a );
    [ u{i-1},v{i-1},p{i-1} ] = lifting( u{i},v{i},p{i} );
 end % end for
 
-[ u{1},v{1},p{1} ] = uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
+[ u{1},v{1},p{1} ] = implicit_uzawa( u{1},v{1},p{1},f{1},g{1},v2,a );
 
 err2 = cal_error(u{1},v{1},p{1});
 % err1 = cal_res_norm(u{1},v{1},p{1});
