@@ -29,3 +29,7 @@ NEW FILE:
 folder:  explicit_vcycle
 
 RUN demo to TEST (Parameter a can be larger?)
+
+1.30 update:
+
+Run problem1 problem2 problem3 problem4 to test speed

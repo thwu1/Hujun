@@ -9,7 +9,7 @@ addpath('multigrid operation');
 % u = zeros(n,n+1);
 % v = zeros(n+1,n);
 % p = zeros(n,n);
-% [u,v,p] = vcycle_uzawa2(u,v,p,v1,v2,L,a,n);
+% [u,v,p] = vcycle_uzawa(u,v,p,v1,v2,L,a,n);
 
 
 n = 128;
@@ -19,4 +19,4 @@ L = 5;
 u = zeros(n,n+1);
 v = zeros(n+1,n);
 p = zeros(n,n);
-[u,v,p] = vcycle_dgs2(u,v,p,v1,v2,L,n);
+[u,v,p] = vcycle_dgs(u,v,p,v1,v2,L,n);

@@ -3,13 +3,9 @@ v1 = 2;
 v2 = 0;
 a = 1;
 
-% v1 = 5;
-% v2 = 1;
-% a = 0.1;
-
 method = @uzawa;
-
-n = 128;
+for k = 6:11
+n = 2^k;
 L = log2(n);
 % Initialization
 F = cell(1,L);
@@ -31,20 +27,17 @@ end
 for i = 1:L-1
     I{i} = rest(n/2^i);
 end
-
+tic
 itt = 0;
 res_norm = 1;
 while res_norm > 1e-8
     itt = itt + 1;
-%     fprintf("Start iteration : %d  res_norm = %f\n",itt,res_norm);
-tic
     [ U{1},P{1} ] = method( A{1},B{1},U{1},P{1},F{1},v1,a );
-    toc
     for i = 2:L
         F_res = F{i-1} - A{i-1}*U{i-1} - B{i-1}*P{i-1};
         if i == 2
         res_norm = norm(F_res,2)/n^2;
-        fprintf("%e\n",res_norm);
+%         fprintf("%e\n",res_norm);
         if res_norm < 1e-8
             break;
         end
@@ -59,8 +52,7 @@ tic
         [U{i},P{i}] = method(A{i},B{i},U{i},P{i},F{i},v2,0.001);
     end
 end
-% time = toc;
+time = toc;
 err = get_error(U{1},P{1});
-% fprintf("Parameter:\nL = %d\nv1 = %d\nv2 = %d\nerror = %f\niteration: %d \nTime = %f\n",L,v1,v2,err,itt,time);
-fprintf("N=%d Time=f err=%e Iter=%d\n",n,err,itt);
-
+fprintf("N=%d Time=%f err=%e Iter=%d\n",n,time,err,itt);
+end
