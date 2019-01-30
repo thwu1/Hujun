@@ -1,7 +1,7 @@
 clear all;
 
 global I LU LP A B F n p;
-n = 2048;
+n = 1024;
 L = log2(n);
 a = 1.1;
 v = 2;
