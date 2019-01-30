@@ -1,34 +1,19 @@
-function [U_out,P_out] = vcyc(U_in,P_in,F_in)
-v1 = 2;
-v2 = 0;
-a = 1;
-method = @uzawa;
-% v1 = 10;
+function [U_out,P_out] = vcyc(A,B,LU,LP,I,U_in,P_in,F_in)
+% v1 = 2;
 % v2 = 0;
-% a = 0.2;
-% method = @inexact_uzawa;
+% a = 1;
+% method = @uzawa;
+v1 = 10;
+v2 = 0;
+a = 0.2;
+method = @inexact_uzawa;
 n = floor(sqrt(length(F_in)/2))+1;
 L = log2(n);
 % Initialization
 F = cell(1,L);
 U = cell(1,L);
 P = cell(1,L);
-I = cell(1,L-1);
-LU = cell(1,L-1);
-LP = cell(1,L-1);
-A = cell(1,L);
-B = cell(1,L);
 F{1} = F_in;
-for i = 1:L
-    [A{i},B{i}] = mac(n/2^(i-1));
-    [U{i},P{i}] = initial(n/2^(i-1));
-end
-for i = 1:L-1
-    [LU{i},LP{i}] = prol(n/(2^i));
-end
-for i = 1:L-1
-    I{i} = rest(n/2^i);
-end
 U{1} = U_in;
 P{1} = P_in;
     [ U{1},P{1} ] = method( A{1},B{1},U{1},P{1},F{1},v1,a );
