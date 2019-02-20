@@ -1,3 +1,6 @@
+addpath('multigrid_fun');
+addpath('error_fun');
+addpath('algorithm');
 clear all;
 v1 = 2;
 v2 = 0;

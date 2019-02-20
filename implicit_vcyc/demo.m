@@ -14,7 +14,7 @@ addpath('multigrid operation');
 
 n = 128;
 v1 = 1;
-v2 = 2;
+v2 = 0;
 L = 5;
 u = zeros(n,n+1);
 v = zeros(n+1,n);

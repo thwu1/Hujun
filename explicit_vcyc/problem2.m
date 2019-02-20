@@ -1,3 +1,6 @@
+addpath('multigrid_fun');
+addpath('error_fun');
+addpath('algorithm');
 clear all;
 v1 = 2;
 v2 = 0;
@@ -36,7 +39,7 @@ while res_norm > 1e-8
     for i = 2:L
         F_res = F{i-1} - A{i-1}*U{i-1} - B{i-1}*P{i-1};
         if i == 2
-        res_norm = norm(F_res,2)/n^2;
+        res_norm = norm(F_res,2)/norm(F{1},2);
 %         fprintf("%e\n",res_norm);
         if res_norm < 1e-8
             break;

@@ -30,11 +30,11 @@ for i = 1:n+1
 v_exact(i,j) = fun_v( (2*j-1)/(2*n),(i-1)/n );
     end
 end
-% for i = 1:n
-%     for j = 1:n
-% p_exact(i,j) = fun_p( (2*j-1)/(2*n),(2*i-1)/(2*n) );
-%     end
-% end
-
+for i = 1:n
+    for j = 1:n
+p_exact(i,j) = fun_p( (2*j-1)/(2*n),(2*i-1)/(2*n) );
+    end
+end
+% imshow(abs(p-p_exact)/max(max(abs(p-p_exact))));
 error = norm(u_exact-u,'fro')^2 + norm(v_exact-v,'fro')^2;
 error = sqrt(error)/n;

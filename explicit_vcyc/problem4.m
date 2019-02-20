@@ -1,3 +1,6 @@
+addpath('multigrid_fun');
+addpath('error_fun');
+addpath('algorithm');
 clear all;
 for k = 6:11
 global I LU LP A B F n p;
@@ -35,13 +38,10 @@ while res_norm > 1e-8
     for i = 1:v
 U = vcyc(U,F-B{1}*P);
     end
-res_norm = norm(F - A{1}*U - B{1}*P,2)/n^2;
+res_norm = norm(F - A{1}*U - B{1}*P,2)/norm(F,2);
 if res_norm < 1e-8
     break;
 end
-% tic
-% [U,P] = method(A{1},B{1},U,P,F,v,a);
-% toc
 P = P + a*(B{1}'*U);
 end
 time = toc;
@@ -49,8 +49,6 @@ err = get_error(U,P);
 fprintf("N=%d Time=%f err=%e Iter=%d a:%f v:%d p:%d\n",n,time,err,itt,a,v,p);
 
 end
-
-
 
 function U_out = vcyc(U_in,F_in)
 global A LU I n p;
